@@ -3,22 +3,22 @@ from gym import error, spaces, utils
 from gym.utils import seeding
 import numpy as np
 
-class CmapssEnv(gym.Env):
+class CMAPSSEnv(gym.Env):
     metadata = {'render.modes': ['human']}
     DATA_DIR = 'data/observations.npy'
 
     def __init__(self):
         self.reward_range = (-50.0, 50.0)
         self._create_env()
-        self.observation_space = spaces.Box(low=0, high=1, shape=(self.env.getObservationSize()))
-        self.action_space = spaces.Tuple((spaces.Discrete(2)))
+        self.observation_space = spaces.Box(low=0, high=1, shape=(self.getObservationSize()))
+        self.action_space = spaces.Discrete(2)
     
     def _create_env(self):
         self.cur_idx = 0
-        self.observations = np.load(DATA_DIR)
+        self.observations = np.load('/home/mohan/pick-orient-place/yannik/gym-cmapss/data/observations.npy')
 
     def getObservationSize(self):
-        return len(self.observations[0])
+        return len(self.observations[0]), 1
 
     def step(self, action):
         self.cur_idx += 1
@@ -33,7 +33,7 @@ class CmapssEnv(gym.Env):
                 cur_reward = 50 # engine did not fail
                 done = False
 
-            return (cur_obs, reward, done, None) # (observation, reward, done, info)
+            return (cur_obs, cur_reward, done, None) # (observation, reward, done, info)
         
         else: # repair action
             done = True
