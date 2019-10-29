@@ -9,7 +9,6 @@ class CmapssEnv(gym.Env):
 
     def __init__(self):
         self.reward_range = (-50.0, 50.0)
-        self.state_size = None
         self._create_env()
         self.observation_space = spaces.Box(low=0, high=1, shape=(self.env.getObservationSize()))
         self.action_space = spaces.Tuple((spaces.Discrete(2)))
